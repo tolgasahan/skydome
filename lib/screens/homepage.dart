@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:skydome/decorations/backgrounds/background-decorator.dart';
 import 'package:skydome/decorations/decorations.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:curved_gradient/curved_gradient.dart';
 import 'package:skydome/widgets/profit.dart';
+import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,8 +14,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final PageController _pageController = PageController();
+  late int selectedPage;
+  late final PageController _bottomPageController;
   String _appBarText = "Fabirka Genel Verimliliği";
+
+  @override
+  void initState() {
+    selectedPage = 0;
+    _bottomPageController = PageController(initialPage: selectedPage);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,11 +40,12 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
       ),
       body: PageView(
-        controller: _pageController,
         onPageChanged: (index) {
           setState(() {
-            if(index == 0)_appBarText = "Fabrika Genel Verimliliği";
-            else _appBarText = "Tekstil Genel Durum";
+            if (index == 0)
+              _appBarText = "Fabrika Genel Verimliliği";
+            else
+              _appBarText = "Tekstil Genel Durum";
           });
         },
         children: [
@@ -48,16 +58,22 @@ class _HomePageState extends State<HomePage> {
                     width: double.infinity,
                     color: Decorations.homePageColor,
                     child: CircularPercentIndicator(
-                      linearGradient: CurvedGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.topLeft,
-                        colors: [Colors.red, Colors.green],
-                        granularity: 100,
-                        curveGenerator: (x) => pow(1 - x, 8).toDouble(),
-                      ),
                       radius: 180,
-                      lineWidth: 30,
-                      percent: 1,
+                      lineWidth: 15,
+                      percent: 0.5,
+                      backgroundColor: Colors.grey,
+                      backgroundWidth: 5,
+                      center: Container(
+                        alignment: Alignment.center,
+                        width: 280,
+                        height: 280,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.blue[300]),
+                        child: Text(
+                          "%50",
+                          style: TextStyle(fontSize: 100, color: Colors.white),
+                        ),
+                      ),
                     )),
               ),
               Container(
@@ -83,8 +99,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.290,
+                height: MediaQuery.of(context).size.height * 0.260,
                 child: PageView(
+                  controller: _bottomPageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      selectedPage = index;
+                    });
+                  },
                   children: [
                     Center(
                       child: Text('First Page'),
@@ -98,23 +120,33 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              PageViewDotIndicator(
+                size: Size(8, 8),
+                currentItem: selectedPage,
+                count: 3,
+                unselectedColor: Colors.black26,
+                selectedColor: Colors.black,
+                duration: Duration(milliseconds: 200),
+                boxShape: BoxShape.circle,
+              ),
             ],
           ),
           Container(
             decoration: Background("images/bg.jpg").getBackground(),
             child: ListView.builder(
                 itemCount: 10,
-                itemBuilder: (context,item) {
+                itemBuilder: (context, item) {
                   return Container(
                     height: 125,
                     margin: EdgeInsets.all(10),
                     child: Card(
                       color: Colors.grey,
-                      child: Container(padding: EdgeInsets.all(5),child: Text("Makina " +(item+1).toString())),
+                      child: Container(
+                          padding: EdgeInsets.all(5),
+                          child: Text("Makina " + (item + 1).toString())),
                     ),
                   );
-                }
-            ),
+                }),
           )
         ],
       ),
