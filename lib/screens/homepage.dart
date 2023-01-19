@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.260,
+                height: MediaQuery.of(context).size.height * 0.270,
                 child: PageView(
                   controller: _bottomPageController,
                   onPageChanged: (index) {
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               PageViewDotIndicator(
-                size: Size(8, 8),
+                size: Size(MediaQuery.of(context).size.height * 0.008, MediaQuery.of(context).size.height * 0.008),
                 currentItem: selectedPage,
                 count: 3,
                 unselectedColor: Colors.black26,
