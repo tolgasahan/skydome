@@ -8,7 +8,7 @@ class Background{
     return BoxDecoration(
         image: DecorationImage(
           image: AssetImage(path),
-          fit: BoxFit.cover,
+          fit: BoxFit.fitHeight,
         ));
   }
 }

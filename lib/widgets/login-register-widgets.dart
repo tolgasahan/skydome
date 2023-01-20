@@ -15,7 +15,6 @@ class LoginRegisterWidgets{
 
   static Widget buildButton(BuildContext context, String text,String process) {
     return Container(
-        height: 60,
         width: double.infinity,
         child: ElevatedButton(
                 style: ButtonDecorator().setDecorate(),

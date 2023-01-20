@@ -8,12 +8,6 @@ class TextFieldDecorator{
   InputDecoration setTextField(){
     return InputDecoration(
       prefixIcon:Icon(icon),
-       enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black)
-      ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.red)
-      ),
       border: const OutlineInputBorder(),
       labelText: labelText,
     );

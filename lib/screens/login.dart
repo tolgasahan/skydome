@@ -24,56 +24,47 @@ class _LoginState extends State<Login> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
-            child: Center(
-              child: Column(
-                children: [
-                  Container(
-                      width: 120,
-                      height: 120,
+          body: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 60),
+            child: Column(
+              children: [
+                Expanded(flex: 17, child: Container(
                       margin: EdgeInsets.only(bottom: 10),
                       decoration:
-                          Background("images/logo.png").getBackground()),
-                  const Text(
-                    "S K Y D O M E",
-                    style: TextStyle(fontFamily: 'DaBronxSans', fontSize: 45,color: Decorations.color),
-                  ),
-                  Container(
-                    height: 250,
-                    margin: const EdgeInsets.only(top: 50),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        LoginRegisterWidgets.buildTextField("Username", Icons.person),
-                        LoginRegisterWidgets.buildPasswordField("Password", Icons.lock),
-                        LoginRegisterWidgets.buildButton(context, "Giriş Yap","login")
-                      ],
-                    ),
-                  ),
-                  const Expanded(
-                      child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text("Üye değilim?",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15)),
-                    ),
-                  )),
-                  InkWell(
-                    child: const Text(
-                      "Yeni hesap oluştur",
-                      style: TextStyle(
-                          color: Decorations.color,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20)),
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Register())),
-                  ),
-                ],
-              ),
+                          Background("images/logo.png").getBackground(),
+                  ),),
+                Expanded(flex: 12,child: Text(
+                  "S K Y D O M E",
+                  style: TextStyle(fontFamily: 'DaBronxSans', fontSize: 45,color: Decorations.color),
+                ),),
+                Expanded(flex:14,child: LoginRegisterWidgets.buildTextField("Username", Icons.person)),
+                Expanded(flex:14,child: LoginRegisterWidgets.buildPasswordField("Password", Icons.lock),),
+                Expanded(flex:9,child: LoginRegisterWidgets.buildButton(context, "Giriş Yap","login")),
+                Expanded(flex: 30, child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("Üye değilim?",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 15)),
+                          Padding(
+                            padding: const EdgeInsets.only(top:8.0),
+                            child: InkWell(
+                              child: Text("Yeni hesap oluştur", style: TextStyle(
+                                  color: Decorations.color,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20)),
+                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Register())),
+                            ),
+                          )
+                        ],
+                      )
+                )),
+
+              ],
             ),
           ),
         ),
