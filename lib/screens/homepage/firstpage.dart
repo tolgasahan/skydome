@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skydome/decorations/decorations.dart';
+import 'package:skydome/widgets/appbar-icon-button.dart';
 import 'package:skydome/widgets/circular_percent.dart';
 import 'package:skydome/data/chart-data.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
@@ -9,16 +10,18 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class FirstPage extends StatefulWidget {
   List<ChartData> chartData1;
   List<ChartData> chartData2;
-  FirstPage(this.chartData1,this.chartData2);
+  PageController pageController;
+  FirstPage(this.chartData1,this.chartData2,this.pageController);
 
   @override
-  State<FirstPage> createState() => _FirstPageState(chartData1,chartData2);
+  State<FirstPage> createState() => _FirstPageState(chartData1,chartData2,pageController);
 }
 
 class _FirstPageState extends State<FirstPage> {
+  PageController pageController;
   List<ChartData> chartData1;
   List<ChartData> chartData2;
-  _FirstPageState(this.chartData1,this.chartData2);
+  _FirstPageState(this.chartData1,this.chartData2,this.pageController);
 
 
   late int pageCount = 3;
@@ -35,7 +38,18 @@ class _FirstPageState extends State<FirstPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+        actions: [AppBarIconButton(1,Icons.arrow_forward_ios,pageController)],
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: Text("Fabrika Genel Verimliliği"),
+    backgroundColor: themeColor,
+    elevation: 0,
+    ),
+    body: Column(
       children: [
         Expanded(
           flex: 27,
@@ -109,7 +123,7 @@ class _FirstPageState extends State<FirstPage> {
           ),
         )
       ],
-    );
+    ));
   }
 
   Widget buildBottomChart(List<ChartData> data1, List<ChartData> data2) {

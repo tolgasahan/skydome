@@ -1,12 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:skydome/data/chart-data.dart';
 import 'package:skydome/decorations/decorations.dart';
 import 'package:skydome/screens/homepage/firstpage.dart';
 import 'package:skydome/screens/homepage/secondpage.dart';
-import 'package:skydome/screens/machine-details.dart';
-import 'package:skydome/widgets/linear_percent.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -57,14 +53,13 @@ class _HomePageState extends State<HomePage> {
     ChartData(18, 20),
   ];
 
-  late int _selectedPage;
-  late final PageController _pageController;
-  String _appBarText = "Fabirka Genel Verimliliği";
+  late int selectedPage;
+  late final PageController pageController;
 
   @override
   void initState() {
-    _selectedPage = 0;
-    _pageController = PageController(initialPage: _selectedPage);
+    selectedPage = 0;
+    pageController = PageController(initialPage: selectedPage);
     super.initState();
   }
 
@@ -73,56 +68,42 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (_selectedPage == 1) {
-          _pageController.animateTo(0,
-              duration: Duration(milliseconds: 500), curve: Curves.decelerate);
-        } else if (_selectedPage == 0) {
-          _showToast(context);
+        if (selectedPage == 1) {
+          pageController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+        } else if (selectedPage == 0) {
+          showDialog(context: context,
+              builder: (BuildContext cc) {
+                return AlertDialog(
+                    content: TextButton(onPressed: (){Navigator.of(cc, rootNavigator: true).pop();}, child: Text("sad"))
+                );
+              });
         }
-
         return false;
       },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text(_appBarText,),
-          backgroundColor: themeColor,
-          elevation: 0,
-        ),
-        body: PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
-            setState(() {
-              setAppBarText(index);
-              _selectedPage = index;
-            });
-          },
-          children: [
-            FirstPage(chartData1, chartData2),
-            SecondPage(chartData1)
-          ],
-        ),
+      child: PageView(
+        controller: pageController,
+        onPageChanged: (index) {
+          setState(() {
+            selectedPage = index;
+          });
+        },
+        children: [
+          FirstPage(chartData1, chartData2, pageController),
+          SecondPage(chartData1,pageController)
+        ],
       ),
     );
-  }
-
-  setAppBarText(int index) {
-    if (index == 0)
-      _appBarText = "Fabrika Genel Verimliliği";
-    else
-      _appBarText = "Tekstil Genel Durum";
   }
 
   void _showToast(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: const Text('Added to favorite'),
-        action: SnackBarAction(label: 'UNDO', onPressed: () => Navigator.pop(context)),
+        content: const Text('Çıkış yapmak istediğinize emin misiniz?'),
+        action: SnackBarAction(label: 'Evet', onPressed: () => Navigator.pop(context)),
       ),
     );
   }
 }
+
+
