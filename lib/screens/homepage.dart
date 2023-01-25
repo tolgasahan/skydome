@@ -63,20 +63,34 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  bool isSure = false;
   var themeColor = Decorations.homePageColor;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         if (selectedPage == 1) {
-          pageController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+          pageController.animateTo(0,
+              duration: Duration(milliseconds: 500), curve: Curves.decelerate);
         } else if (selectedPage == 0) {
-          showDialog(context: context,
-              builder: (BuildContext cc) {
-                return AlertDialog(
-                    content: TextButton(onPressed: (){Navigator.of(cc, rootNavigator: true).pop();}, child: Text("sad"))
-                );
-              });
+          showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                    title: Text("Çıkış Yap?"),
+                    content: Text("Çıkış yapmak istediğinize emin misiniz?"),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () => Navigator.of(ctx).pop(true),
+                          child: Text("Evet")),
+                      TextButton(
+                          onPressed: () => Navigator.of(ctx).pop(false),
+                          child: Text("Hayır"))
+                    ],
+                  )).then((value) {
+            if (value == true) {
+              Navigator.pop(context);
+            }
+          });
         }
         return false;
       },
@@ -89,7 +103,7 @@ class _HomePageState extends State<HomePage> {
         },
         children: [
           FirstPage(chartData1, chartData2, pageController),
-          SecondPage(chartData1,pageController)
+          SecondPage(chartData1, pageController)
         ],
       ),
     );
@@ -100,10 +114,9 @@ class _HomePageState extends State<HomePage> {
     scaffold.showSnackBar(
       SnackBar(
         content: const Text('Çıkış yapmak istediğinize emin misiniz?'),
-        action: SnackBarAction(label: 'Evet', onPressed: () => Navigator.pop(context)),
+        action: SnackBarAction(
+            label: 'Evet', onPressed: () => Navigator.pop(context)),
       ),
     );
   }
 }
-
-

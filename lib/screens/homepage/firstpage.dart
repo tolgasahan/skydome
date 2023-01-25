@@ -59,7 +59,7 @@ class _FirstPageState extends State<FirstPage> {
               child: Container(
                   width: 350,
                   height: 350,
-                  child: CircularPercent(90))),
+                  child: CircularPercent(99))),
         ),
         Expanded(
           flex: 8,

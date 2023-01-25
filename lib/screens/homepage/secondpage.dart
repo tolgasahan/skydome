@@ -8,19 +8,20 @@ import 'package:skydome/widgets/appbar-icon-button.dart';
 import 'package:skydome/widgets/linear_percent.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class SecondPage extends StatefulWidget{
+class SecondPage extends StatefulWidget {
   List<ChartData> chartData;
   PageController pageController;
-  SecondPage(this.chartData,this.pageController);
+  SecondPage(this.chartData, this.pageController);
 
   @override
-  State<SecondPage> createState() => _SecondPageState(chartData,pageController);
+  State<SecondPage> createState() =>
+      _SecondPageState(chartData, pageController);
 }
 
 class _SecondPageState extends State<SecondPage> {
   List<ChartData> chartData;
   PageController pageController;
-  _SecondPageState(this.chartData,this.pageController);
+  _SecondPageState(this.chartData, this.pageController);
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +31,12 @@ class _SecondPageState extends State<SecondPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: AppBarIconButton(0,Icons.arrow_back_ios,pageController),
+          leading: AppBarIconButton(0, Icons.arrow_back_ios, pageController),
           automaticallyImplyLeading: false,
           centerTitle: true,
-          title: Text("Makinalar",),
+          title: Text(
+            "Makinalar",
+          ),
           backgroundColor: themeColor,
           elevation: 0,
         ),
@@ -72,7 +75,7 @@ class _SecondPageState extends State<SecondPage> {
       ),
       series: <ChartSeries>[
         StepLineSeries<ChartData, int>(
-            color: Colors.grey,
+            color: Colors.white,
             width: 3,
             dataSource: data,
             xValueMapper: (ChartData data, _) => data.x,
@@ -120,20 +123,6 @@ class _SecondPageState extends State<SecondPage> {
                     )),
                     Expanded(
                         child: Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                            Colors.grey,
-                            Colors.white60,
-                            Colors.white
-                          ],
-                              stops: [
-                            0.0,
-                            0.4,
-                            0.7
-                          ])),
                       child: buildCardChart(data),
                     ))
                   ],
