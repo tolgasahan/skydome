@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skydome/decorations/box/box-decorator.dart';
 import 'package:skydome/decorations/decorations.dart';
 import 'package:skydome/widgets/appbar-icon-button.dart';
 import 'package:skydome/widgets/circular_percent.dart';
@@ -53,18 +54,25 @@ class _FirstPageState extends State<FirstPage> {
       children: [
         Expanded(
           flex: 27,
-          child: Container(
-              alignment: Alignment.topCenter,
-              color: themeColor,
-              child: Container(
-                  width: 350,
-                  height: 350,
-                  child: CircularPercent(99))),
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              double size;
+              if(constraints.maxHeight > constraints.maxWidth)
+                size = constraints.maxWidth;
+              else
+                size = constraints.maxHeight;
+              return  Container(
+                alignment: Alignment.topCenter,
+                color: themeColor,
+                child: CircularPercent(50,size),
+              );
+            },
+          ),
         ),
         Expanded(
           flex: 8,
           child: Container(
-            color: themeColor,
+            decoration: BoxDecorator(themeColor).eraseBorders(),
             child: Row(
               children: [
                 Profit(Icons.check_circle, "Kazanç", 53.72),

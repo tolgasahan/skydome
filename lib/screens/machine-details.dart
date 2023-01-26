@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:skydome/decorations/box/box-decorator.dart';
 import 'package:skydome/decorations/decorations.dart';
 import 'package:skydome/widgets/bottom-text.dart';
 import 'package:skydome/widgets/circular_percent.dart';
@@ -8,20 +8,44 @@ import 'package:skydome/widgets/profit.dart';
 
 class MachineDetails extends StatefulWidget {
   int machineID;
-  MachineDetails(this.machineID);
-
+  bool isWorking;
+  MachineDetails(this.machineID,this.isWorking);
 
   @override
-  State<MachineDetails> createState() => _MachineDetailsState(machineID);
+  State<MachineDetails> createState() => _MachineDetailsState(machineID,isWorking);
 }
 
 class _MachineDetailsState extends State<MachineDetails> {
   int machineID;
-  _MachineDetailsState(this.machineID);
+  bool isWorking;
+  _MachineDetailsState(this.machineID,this.isWorking);
+
+  late int topBarFlex;
+  late int circleProgressFlex;
+
+  String _appBarText = "Makina";
+  var themeColor ;
+
+  @override
+  void initState() {
+    if(isWorking == true){
+      topBarFlex = 0;
+      circleProgressFlex=27;
+      themeColor = Decorations.homePageColor;
+    }
+    else{
+      topBarFlex= 4;
+      circleProgressFlex= 23;
+      themeColor = Colors.redAccent.shade700;
+    }
+    print(isWorking.toString());
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    String _appBarText = "Makina";
-    var themeColor = Decorations.homePageColor;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -31,22 +55,34 @@ class _MachineDetailsState extends State<MachineDetails> {
         backgroundColor: themeColor,
         elevation: 0,
       ),
-      body:Column(
+      body: Column(
         children: [
+          if(isWorking == false)Expanded(flex:topBarFlex,child: Container(
+            decoration: BoxDecorator(themeColor).eraseBorders(),
+            child: Text("ÇALIŞMIYOR!", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25,color: Colors.white),),
+            width: double.infinity,
+            alignment: Alignment.center,) )
+          ,
           Expanded(
-            flex: 27,
-            child: Container(
-                alignment: Alignment.topCenter,
-                color: themeColor,
-                child: Container(width: 350,height: 350,child: CircularPercent(50))),
+            flex: circleProgressFlex,
+            child:LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return  Container(
+                      decoration: BoxDecorator(themeColor).eraseBorders(),
+                        alignment: Alignment.topCenter,
+
+                       child: CircularPercent(100,constraints.maxHeight),
+                    );
+                  },
+                ),
           ),
           Expanded(
             flex: 8,
             child: Container(
-              color: themeColor,
+              decoration: BoxDecorator(themeColor).eraseBorders(),
               child: Row(
                 children: [
-                  Profit(Icons.check_circle, "Kazanç",53.72),
+                  Profit(Icons.check_circle, "Kazanç", 53.72),
                   Expanded(
                     flex: 1,
                     child: Container(
@@ -54,7 +90,7 @@ class _MachineDetailsState extends State<MachineDetails> {
                       height: 35,
                     ),
                   ),
-                  Profit(Icons.radar_rounded, "Optimum",64.32)
+                  Profit(Icons.radar_rounded, "Optimum", 64.32)
                 ],
               ),
             ),
@@ -67,31 +103,39 @@ class _MachineDetailsState extends State<MachineDetails> {
                 buildFaults("textLeft", "textRight", Colors.purple),
                 buildFaults("textLeft", "textRight", Colors.red),
                 buildFaults("textLeft", "textRight", Colors.yellow),
-                Expanded(child: Container(decoration: BoxDecoration(border: Border.all(color: Colors.grey,width: 0.5)),margin: EdgeInsets.all(15),child: LinearPercent(20,20,60),))
+                Expanded(
+                    child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 0.5)),
+                  margin: EdgeInsets.all(15),
+                  child: LinearPercent(20, 20, 60),
+                ))
               ],
             ),
           ),
-
         ],
       ),
     );
   }
 
-  Widget buildFaults(String textLeft, String textRight,var color){
-    return  Expanded(
+  Widget buildFaults(String textLeft, String textRight, var color) {
+    return Expanded(
       child: Row(
         children: [
           Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: 15,right: 5),
-            child: Icon(Icons.square,color: color,)),
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(left: 15, right: 5),
+              child: Icon(
+                Icons.square,
+                color: color,
+              )),
           Text(textLeft),
           Expanded(
               child: Container(
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.only(right: 15),
-                child: Text(textRight),
-              ))
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.only(right: 15),
+            child: Text(textRight),
+          ))
         ],
       ),
     );

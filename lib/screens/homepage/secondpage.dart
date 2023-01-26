@@ -23,6 +23,7 @@ class _SecondPageState extends State<SecondPage> {
   PageController pageController;
   _SecondPageState(this.chartData, this.pageController);
 
+  bool iW = false;
   @override
   Widget build(BuildContext context) {
     var themeColor = Decorations.homePageColor;
@@ -39,6 +40,9 @@ class _SecondPageState extends State<SecondPage> {
           ),
           backgroundColor: themeColor,
           elevation: 0,
+          actions: [IconButton(onPressed: (){setState(() {
+            iW == true ? iW = false: iW = true;
+          });}, icon: Icon(Icons.abc))],
         ),
         body: Container(
           decoration: Background("images/background.jpg").getBackground(),
@@ -55,40 +59,52 @@ class _SecondPageState extends State<SecondPage> {
   }
 
   Widget buildCardChart(List<ChartData> data) {
-    return SfCartesianChart(
-      margin: EdgeInsets.zero,
-      plotAreaBorderWidth: 0,
-      primaryYAxis: NumericAxis(
-        minimum: 0,
-        maximum: 100,
-        labelStyle: TextStyle(fontSize: 0),
-        axisLine: const AxisLine(width: 0),
-        majorTickLines: const MajorTickLines(width: 0),
-        majorGridLines: const MajorGridLines(width: 0),
-      ),
-      primaryXAxis: NumericAxis(
-        maximum: 15,
-        labelStyle: TextStyle(fontSize: 0),
-        axisLine: const AxisLine(width: 0),
-        majorTickLines: const MajorTickLines(width: 0),
-        majorGridLines: const MajorGridLines(width: 0),
-      ),
-      series: <ChartSeries>[
-        StepLineSeries<ChartData, int>(
-            color: Colors.white,
-            width: 3,
-            dataSource: data,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y),
-      ],
-    );
+     return Stack(
+       children: [
+         SfCartesianChart(
+          margin: EdgeInsets.zero,
+          plotAreaBorderWidth: 0,
+          primaryYAxis: NumericAxis(
+            minimum: 0,
+            maximum: 100,
+            labelStyle: TextStyle(fontSize: 0),
+            axisLine: const AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
+          ),
+          primaryXAxis: NumericAxis(
+            maximum: 15,
+            labelStyle: TextStyle(fontSize: 0),
+            axisLine: const AxisLine(width: 0),
+            majorTickLines: const MajorTickLines(width: 0),
+            majorGridLines: const MajorGridLines(width: 0),
+          ),
+          series: <ChartSeries>[
+            StepLineSeries<ChartData, int>(
+                color: Colors.white,
+                width: 3,
+                dataSource: data,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y),
+          ],
+    ),
+         GestureDetector(
+           onTap: () {
+             setState(() {});
+             return pushNavigator(1, iW);
+           },
+         )
+       ],
+     );
   }
 
   Widget buildMachineCard(int index, List<ChartData> data) {
     Random random = Random();
     return GestureDetector(
-      onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MachineDetails(1))),
+      onTap: () {
+        setState(() {});
+        return pushNavigator(1, iW);
+      },
       child: Card(
         elevation: 3,
         color: Colors.grey,
@@ -127,10 +143,17 @@ class _SecondPageState extends State<SecondPage> {
                     ))
                   ],
                 )),
-            Expanded(flex: 1, child: LinearPercent(20, 50, 30))
+            Expanded(flex: 1, child: LinearPercent(10, 50, 30))
           ],
         ),
       ),
     );
   }
+
+  pushNavigator(int machineID,bool isWorking) {
+    return Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MachineDetails(machineID,isWorking)));
+  }
+
+
 }

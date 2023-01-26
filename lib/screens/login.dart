@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:skydome/decorations/backgrounds/background-decorator.dart';
 import 'package:skydome/decorations/buttons/button-decorator.dart';
 import 'package:skydome/decorations/decorations.dart';
+import 'package:skydome/decorations/textfields/textfield-decorator.dart';
 import 'package:skydome/screens/homepage.dart';
 import 'package:skydome/screens/register.dart';
-import 'package:skydome/widgets/login-register-widgets.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -29,19 +28,35 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 60),
             child: Column(
               children: [
-                Expanded(flex: 17, child: Container(
-                      margin: EdgeInsets.only(bottom: 10),
+                Expanded(flex: 9, child: Container(
                       decoration:
                           Background("images/logo.png").getBackground(),
                   ),),
-                Expanded(flex: 12,child: Text(
+                Expanded(flex:8,child: Text(
                   "S K Y D O M E",
                   style: TextStyle(fontFamily: 'DaBronxSans', fontSize: 45,color: Decorations.color),
                 ),),
-                Expanded(flex:14,child: LoginRegisterWidgets.buildTextField("Username", Icons.person)),
-                Expanded(flex:14,child: LoginRegisterWidgets.buildPasswordField("Password", Icons.lock),),
-                Expanded(flex:9,child: LoginRegisterWidgets.buildButton(context, "Giriş Yap","login")),
-                Expanded(flex: 30, child: Container(
+                Expanded(flex:8,child:TextField(
+                  decoration: TextFieldDecorator("Username",Icons.person).setTextField(),
+                )),
+                Expanded(flex:8,child: TextField(
+                  decoration: TextFieldDecorator("Password",Icons.lock).setTextField(),
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                ),),
+                Expanded(flex:5,child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 2),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        style: ButtonDecorator().setDecorate(),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        },
+                        child: Text("Giriş Yap")
+                    )
+                )),
+                Expanded(flex: 16, child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

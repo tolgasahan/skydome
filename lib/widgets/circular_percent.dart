@@ -4,18 +4,23 @@ import 'dart:math';
 
 class CircularPercent extends StatefulWidget {
   int percent;
-  CircularPercent(this.percent);
+  double sized;
+  CircularPercent(this.percent,this.sized);
 
   @override
-  State<CircularPercent> createState() => _CircularPercentState(percent);
+  State<CircularPercent> createState() => _CircularPercentState(percent,sized);
 }
 
 class _CircularPercentState extends State<CircularPercent> {
   int percent;
-  _CircularPercentState(this.percent);
+  double sized;
+  _CircularPercentState(this.percent,this.sized);
   late SweepGradient sweepGradient;
+
+  late double size;
   @override
   void initState() {
+    size = sized.toDouble();
     if(percent == 100){
       sweepGradient = SweepGradient(colors: [Colors.green,Colors.green]);
     }
@@ -29,6 +34,8 @@ class _CircularPercentState extends State<CircularPercent> {
     return Stack(
       children: [
         CircularStepProgressIndicator(
+          width: size,
+          height: size,
           padding: 0,
           totalSteps: 100,
           currentStep: 0,
@@ -37,6 +44,8 @@ class _CircularPercentState extends State<CircularPercent> {
           unselectedColor: Colors.white,
         ),
         CircularStepProgressIndicator(
+          width: size,
+          height: size,
           padding: 0,
           totalSteps: 100,
           currentStep: percent,
@@ -53,7 +62,7 @@ class _CircularPercentState extends State<CircularPercent> {
             BoxDecoration(shape: BoxShape.circle, color: Colors.blue[300]),
             child: Text(
               '%$percent',
-              style: TextStyle(fontSize: 100, color: Colors.white),
+              style: TextStyle(fontSize: size/4, color: Colors.white),
             ),
           ),
 
