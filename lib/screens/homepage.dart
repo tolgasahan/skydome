@@ -108,15 +108,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: const Text('Çıkış yapmak istediğinize emin misiniz?'),
-        action: SnackBarAction(
-            label: 'Evet', onPressed: () => Navigator.pop(context)),
-      ),
-    );
-  }
 }
